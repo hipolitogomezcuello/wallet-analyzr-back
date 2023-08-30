@@ -2,6 +2,7 @@ import { WalletsService } from './wallets.service';
 import { Wallet } from './wallet.model';
 import { Sequelize } from 'sequelize-typescript';
 import { createMemDB } from '../utils/createMemDb';
+import { createWallet, deleteWallets } from '../utils/modelFactories';
 
 describe('WalletsService', () => {
   let service: WalletsService;
@@ -14,11 +15,12 @@ describe('WalletsService', () => {
     service = new WalletsService(Wallet);
   });
 
-  describe('create', () => {
-    afterEach(async () => {
-      await memDb.truncate();
-    });
+  afterEach(async () => {
+    await memDb.truncate();
+    jest.clearAllMocks();
+  });
 
+  describe('create', () => {
     it('should create a wallet', async () => {
       const mockFindBalance = jest
         .spyOn(service, 'findBalance' as any)
@@ -57,7 +59,7 @@ describe('WalletsService', () => {
 
   describe('findById', () => {
     it('should find a wallet by id', async () => {
-      const wallet = await service.create('userId', 'address', 1, 1);
+      const wallet = await createWallet('userId', 'address', 1, 1);
       const foundWallet = await service.findById(wallet.id);
 
       expect(foundWallet.id).toEqual(wallet.id);
@@ -76,8 +78,8 @@ describe('WalletsService', () => {
 
   describe('delete', () => {
     it('should delete a wallet', async () => {
-      const wallet = await service.create('userId', 'address', 1, 1);
-      await service.delete(wallet.id);
+      const wallet = await createWallet('userId', 'address', 1, 1);
+      await deleteWallets();
       const foundWallet = await service.findById(wallet.id);
       expect(foundWallet).toBeNull();
     });
@@ -89,7 +91,7 @@ describe('WalletsService', () => {
 
   describe('findAll', () => {
     it('should find all wallets by userId', async () => {
-      const wallet = await service.create('userId', 'address', 1, 1);
+      const wallet = await createWallet('userId', 'address', 1, 1);
       const foundWallets = await service.findAll(wallet.userId);
       expect(foundWallets.length).toEqual(1);
     });
@@ -102,7 +104,7 @@ describe('WalletsService', () => {
 
   describe('update', () => {
     it('should update a wallet', async () => {
-      const wallet = await service.create('userId', 'address', 1, 1);
+      const wallet = await createWallet('userId', 'address', 1, 1);
       const updatedWallet = await service.update(wallet.id, 2, 2);
       expect(updatedWallet.usd).toEqual(2);
       expect(updatedWallet.eur).toEqual(2);

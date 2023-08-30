@@ -72,7 +72,9 @@ export class WalletsService {
         id,
       },
     });
-    await wallet.destroy();
+    if (wallet) {
+      await wallet.destroy();
+    }
   }
 
   async findAll(userId: string): Promise<Wallet[]> {
@@ -89,6 +91,9 @@ export class WalletsService {
         id,
       },
     });
+    if (!wallet) {
+      throw new Error('Wallet not found');
+    }
     wallet.usd = usd;
     wallet.eur = eur;
     await wallet.save();
