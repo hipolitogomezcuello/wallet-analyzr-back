@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './user.model';
-import * as bcrypt from "bcrypt";
+import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
@@ -20,7 +20,10 @@ export class UserService {
     });
   }
 
-  async findByUsernameAndPassword(username: string, password: string): Promise<User> {
+  async findByUsernameAndPassword(
+    username: string,
+    password: string,
+  ): Promise<User> {
     const user = await this.userModel.findOne({
       where: {
         username,
@@ -30,22 +33,5 @@ export class UserService {
       return user;
     }
     return null;
-  }
-
-  async findByUsername(username: string): Promise<User> {
-    return await this.userModel.findOne({
-      where: {
-        username,
-      },
-    });
-  }
-
-  async remove(id: string): Promise<void> {
-    const user = await this.userModel.findOne({
-      where: {
-        id,
-      }
-    });
-    await user.destroy();
   }
 }

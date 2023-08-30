@@ -1,15 +1,12 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import {User} from "./user/user.model";
-import {UserModule} from "./user/user.module";
-import {ConfigModule} from "@nestjs/config";
-import {AuthModule} from "./auth/auth.module";
-import { WalletsService } from './wallets/wallets.service';
-import { WalletsController } from './wallets/wallets.controller';
-import {WalletModule} from "./wallets/wallet.module";
-import {Wallet} from "./wallets/wallet.model";
+import { User } from './user/user.model';
+import { UserModule } from './user/user.module';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { WalletModule } from './wallets/wallet.module';
+import { Wallet } from './wallets/wallet.model';
 
 @Module({
   imports: [
@@ -27,7 +24,7 @@ import {Wallet} from "./wallets/wallet.model";
     AuthModule,
     WalletModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [AppService],
 })
 export class AppModule {}

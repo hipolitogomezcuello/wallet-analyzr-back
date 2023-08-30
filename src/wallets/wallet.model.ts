@@ -1,10 +1,10 @@
-import {Column, Model, Table} from "sequelize-typescript";
+import { Column, Model, Table } from 'sequelize-typescript';
 
-@Table({tableName: 'wallets'})
+@Table({ tableName: 'wallets' })
 export class Wallet extends Model {
-  @Column({primaryKey: true})
+  @Column({ primaryKey: true })
   id: string;
-  @Column({field: 'user_id'})
+  @Column({ field: 'user_id' })
   userId: string;
   @Column
   address: string;
@@ -14,10 +14,10 @@ export class Wallet extends Model {
   usd: number;
   @Column
   eur: number;
-  @Column({field: 'created_at'})
+  @Column({ field: 'created_at' })
   createdAt: Date;
-  @Column({field: 'updated_at'})
+  @Column({ field: 'updated_at' })
   updatedAt: Date;
-  @Column({field: 'is_old'})
+  @Column({ field: 'is_old' })
   isOld: boolean;
 }
